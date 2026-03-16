@@ -1,0 +1,209 @@
+// ===== N20 编码器角度控制程序 =====
+// 仅用 A 相（D2）计脉冲数，用电机命令方向决定加减
+
+#include <Adafruit_MotorShield.h>
+#include <Arduino.h>
+#include <math.h>
+#include <stdlib.h>
+
+constexpr uint8_t MOTOR_PORT = 1;
+constexpr uint8_t ENCODER_PIN_A = 2;  // D2，中断触发
+
+constexpr float ENCODER_PULSES_PER_MOTOR_REV = 11.0f;
+constexpr float GEAR_RATIO = 298.0f;
+// 只用 A 相中断的 CHANGE，每个脉冲 2 次边沿
+constexpr float EDGE_FACTOR = 2.0f;
+constexpr float COUNTS_PER_OUTPUT_REV =
+    ENCODER_PULSES_PER_MOTOR_REV * GEAR_RATIO * EDGE_FACTOR;
+
+constexpr uint8_t MAX_SPEED = 180;
+constexpr uint8_t MIN_SPEED = 80;
+constexpr float KP = 0.35f;
+constexpr uint16_t CONTROL_INTERVAL_MS = 10;
+constexpr long POSITION_TOLERANCE_COUNTS = 4;
+
+Adafruit_MotorShield motorShield;
+Adafruit_DCMotor *motor = nullptr;
+
+volatile long encoderCount = 0;
+volatile int8_t motorDirection = 0;  // +1=FORWARD -1=BACKWARD 0=停止
+long targetCount = 0;
+
+char serialBuffer[32];
+uint8_t serialLength = 0;
+
+unsigned long lastControlTime = 0;
+bool targetReached = true;
+
+// A 相边沿触发中断，用电机命令方向决定计数加减
+void ISR_encoderA() {
+  encoderCount += motorDirection;
+}
+
+long readCount() {
+  noInterrupts();
+  long c = encoderCount;
+  interrupts();
+  return c;
+}
+
+float countsToAngle(long counts) {
+  return (static_cast<float>(counts) * 360.0f) / COUNTS_PER_OUTPUT_REV;
+}
+
+long angleToCounts(float angle) {
+  return lround((angle * COUNTS_PER_OUTPUT_REV) / 360.0f);
+}
+
+void releaseMotor() {
+  motorDirection = 0;
+  motor->setSpeed(0);
+  motor->run(RELEASE);
+}
+
+void setTargetRelativeAngle(float relativeAngle) {
+  long cur = readCount();
+  targetCount = cur + angleToCounts(relativeAngle);
+  targetReached = false;
+
+  Serial.print(F("收到角度指令: "));
+  Serial.print(relativeAngle, 2);
+  Serial.print(F(" deg, 新目标: "));
+  Serial.print(countsToAngle(targetCount), 2);
+  Serial.println(F(" deg"));
+}
+
+void handleCommand(const char *line) {
+  while (*line == ' ' || *line == '\t') {
+    ++line;
+  }
+  if (*line == '\0') return;
+
+  if (*line == 'z' || *line == 'Z') {
+    noInterrupts();
+    encoderCount = 0;
+    interrupts();
+    targetCount = 0;
+    targetReached = true;
+    Serial.println(F("当前位置已清零。"));
+    return;
+  }
+
+  if (*line == 's' || *line == 'S') {
+    targetCount = readCount();
+    targetReached = true;
+    releaseMotor();
+    Serial.println(F("电机已停止。"));
+    return;
+  }
+
+  if (*line == 'p' || *line == 'P') {
+    long c = readCount();
+    Serial.print(F("当前计数: "));
+    Serial.print(c);
+    Serial.print(F(", 角度: "));
+    Serial.print(countsToAngle(c), 2);
+    Serial.println(F(" deg"));
+    return;
+  }
+
+  if (*line == 'h' || *line == 'H') {
+    Serial.println(F("输入数字: 相对转动角度(deg)，例如 90 或 -45"));
+    Serial.println(F("Z=清零  S=停止  P=查看位置  H=帮助"));
+    return;
+  }
+
+  char *endPtr = nullptr;
+  const float angle = strtod(line, &endPtr);
+  if (endPtr == line) {
+    Serial.println(F("无法识别指令，输入 H 查看帮助。"));
+    return;
+  }
+  while (*endPtr == ' ' || *endPtr == '\t') ++endPtr;
+  if (*endPtr != '\0') {
+    Serial.println(F("指令格式错误，输入 H 查看帮助。"));
+    return;
+  }
+
+  setTargetRelativeAngle(angle);
+}
+
+void readSerialCommands() {
+  while (Serial.available() > 0) {
+    const char incoming = static_cast<char>(Serial.read());
+    if (incoming == '\r') continue;
+    if (incoming == '\n') {
+      serialBuffer[serialLength] = '\0';
+      handleCommand(serialBuffer);
+      serialLength = 0;
+      continue;
+    }
+    if (serialLength < sizeof(serialBuffer) - 1) {
+      serialBuffer[serialLength++] = incoming;
+    }
+  }
+}
+
+void controlMotor() {
+  const long currentCount = readCount();
+  const long error = targetCount - currentCount;
+  const long absError = labs(error);
+
+  if (absError <= POSITION_TOLERANCE_COUNTS) {
+    releaseMotor();
+    if (!targetReached) {
+      targetReached = true;
+      Serial.println(F("已到达目标位置。"));
+      Serial.print(F("实际角度: "));
+      Serial.print(countsToAngle(currentCount), 2);
+      Serial.print(F(" deg, 计数: "));
+      Serial.println(currentCount);
+    }
+    return;
+  }
+
+  targetReached = false;
+
+  int speed = static_cast<int>(KP * absError);
+  if (speed < MIN_SPEED) speed = MIN_SPEED;
+  if (speed > MAX_SPEED) speed = MAX_SPEED;
+
+  motor->setSpeed(speed);
+  if (error > 0) {
+    motorDirection = 1;
+    motor->run(FORWARD);
+  } else {
+    motorDirection = -1;
+    motor->run(BACKWARD);
+  }
+}
+
+void setup() {
+  Serial.begin(115200);
+
+  pinMode(ENCODER_PIN_A, INPUT_PULLUP);
+  attachInterrupt(digitalPinToInterrupt(ENCODER_PIN_A), ISR_encoderA, CHANGE);
+
+  if (!motorShield.begin()) {
+    Serial.println(F("Motor Shield 初始化失败！"));
+    while (true) { delay(100); }
+  }
+
+  motor = motorShield.getMotor(MOTOR_PORT);
+  releaseMotor();
+
+  Serial.println();
+  Serial.println(F("N20 编码器角度控制程序已启动。"));
+  Serial.println(F("输入角度值(deg)让电机转动，例如: 90 或 -180"));
+  Serial.println(F("Z=清零  S=停止  P=查看位置  H=帮助"));
+}
+
+void loop() {
+  readSerialCommands();
+
+  const unsigned long now = millis();
+  if (now - lastControlTime >= CONTROL_INTERVAL_MS) {
+    lastControlTime = now;
+    controlMotor();
+  }
+}
