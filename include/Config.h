@@ -5,9 +5,11 @@
 // 拨动开关 (选择模式)
 #define PIN_MODE_SWITCH 4
 
-// 摇杆控制 (云台调试)
-#define PIN_JOY_X A0
-#define PIN_JOY_Y A1
+// 开关量摇杆控制 (WASD模式，四个方向四个开关)
+#define PIN_JOY_UP A0
+#define PIN_JOY_DOWN A1
+#define PIN_JOY_LEFT A2
+#define PIN_JOY_RIGHT A3
 #define PIN_JOY_BTN 5
 
 // 两个舵机 (云台 Yaw/Pitch)
