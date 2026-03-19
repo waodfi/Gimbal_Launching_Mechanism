@@ -2,8 +2,8 @@
 #include <Arduino.h>
 
 // ===== 硬件引脚分配 =====
-// 拨动开关 (选择模式)
-#define PIN_MODE_SWITCH 4
+// 拨动开关 (选择模式) - 原 D4 引脚损坏，现改用 D8
+#define PIN_MODE_SWITCH 8
 
 // 摇杆控制 (模拟量摇杆：VRX, VRY, SW_KEY)
 #define PIN_JOY_X A0
