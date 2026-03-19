@@ -26,11 +26,7 @@ void Gimbal_Init() {
     servoYaw.attach(PIN_SERVO_YAW);
     servoPitch.attach(PIN_SERVO_PITCH);
     
-    // 摇杆引脚初始化 (将选定的A口作为纯数字引脚使用，采用内部上拉)
-    pinMode(PIN_JOY_UP, INPUT_PULLUP);
-    pinMode(PIN_JOY_DOWN, INPUT_PULLUP);
-    pinMode(PIN_JOY_LEFT, INPUT_PULLUP);
-    pinMode(PIN_JOY_RIGHT, INPUT_PULLUP);
+    // 摇杆引脚初始化
     pinMode(PIN_JOY_BTN, INPUT_PULLUP);
     
     Serial.println("Gimbal Module Initialized.");
@@ -41,19 +37,20 @@ void Gimbal_Init() {
 }
 
 void Gimbal_RunTuningMode() {
-    // 1. 读取开关量摇杆的数字状态 (低电平表示按下)
-    bool isUp    = (digitalRead(PIN_JOY_UP) == LOW);
-    bool isDown  = (digitalRead(PIN_JOY_DOWN) == LOW);
-    bool isLeft  = (digitalRead(PIN_JOY_LEFT) == LOW);
-    bool isRight = (digitalRead(PIN_JOY_RIGHT) == LOW);
+    // 1. 读取摇杆模拟量 (VRX 和 VRY，输出范围 0 - 1023)
+    int joyX = analogRead(PIN_JOY_X);
+    int joyY = analogRead(PIN_JOY_Y);
 
-    // 2. 转化为角度增量 (类似于键盘 WASD 控制)
-    // 注意：因舵机安装方向差异，这里如果是反向的，到时候把 += 改成 -= 即可
-    if (isLeft)  currentYaw += 1;
-    if (isRight) currentYaw -= 1;
+    // 2. 将摇杆输入转化为角度增量 (带有中心死区，消除摇杆未触碰时的细微漂移)
+    int deadZone = 100;
+    int center = 512;
     
-    if (isUp)    currentPitch += 1;
-    if (isDown)  currentPitch -= 1;
+    // 注意：因舵机安装方向差异，这里如果是反向的，到时候把 += 改成 -= 即可
+    if (joyX < center - deadZone) currentYaw += 1;
+    if (joyX > center + deadZone) currentYaw -= 1;
+    
+    if (joyY < center - deadZone) currentPitch += 1;
+    if (joyY > center + deadZone) currentPitch -= 1;
 
     // 3. 限制角度范围在这合理区域内 (0 - 180度)
     currentYaw = constrain(currentYaw, 0, 180);
