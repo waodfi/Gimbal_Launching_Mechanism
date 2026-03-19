@@ -5,6 +5,9 @@
 // 拨动开关 (选择模式) - 原 D4 引脚损坏，现改用 D8
 #define PIN_MODE_SWITCH 8
 
+// 试射开关 (仅调试模式可用：按下触发单次射击+装弹，不存点)
+#define PIN_TEST_FIRE_BTN 11
+
 // 摇杆控制 (模拟量摇杆：VRX, VRY, SW_KEY)
 #define PIN_JOY_X A0
 #define PIN_JOY_Y A1
