@@ -6,7 +6,7 @@
 #define PIN_MODE_SWITCH 8
 
 // 试射开关 (仅调试模式可用：按下触发单次射击+装弹，不存点)
-#define PIN_TEST_FIRE_BTN 11
+#define PIN_TEST_FIRE_BTN 12
 
 // 摇杆控制 (模拟量摇杆：VRX, VRY, SW_KEY)
 #define PIN_JOY_X A0
@@ -14,8 +14,8 @@
 #define PIN_JOY_BTN 5
 
 // 两个舵机 (云台 Yaw/Pitch)
-#define PIN_SERVO_YAW 9
-#define PIN_SERVO_PITCH 10
+#define PIN_SERVO_YAW 10
+#define PIN_SERVO_PITCH 9
 
 // 供弹 N20 编码器 (挂外部中断1)
 #define PIN_FEED_ENCA 3

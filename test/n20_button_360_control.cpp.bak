@@ -1,0 +1,130 @@
+// N20 按钮控制测试程序（备份版，不参与默认编译）
+// 功能：
+// 1) 按“试射按钮”(D11) -> N20 正向转 360 度
+// 2) 按“摇杆按钮”(D5)  -> N20 反向转 360 度
+// 每次按下只触发一次，带防抖。
+
+#include <Arduino.h>
+#include <Wire.h>
+#include <Adafruit_MotorShield.h>
+
+// ===== 接线参数 =====
+constexpr uint8_t PIN_TEST_FIRE_BTN = 11; // 试射按钮，按下=LOW
+constexpr uint8_t PIN_JOY_BTN = 5;        // 摇杆按键，按下=LOW
+constexpr uint8_t PIN_ENCODER_A = 2;      // 编码器A相，必须硬中断引脚(D2)
+
+constexpr uint8_t MOTOR_PORT = 1;         // M1
+constexpr uint8_t MOTOR_SPEED = 180;      // 0~255
+
+// 关键参数：每转 360 度所需计数（请按实际电机微调）
+// 常见取值：
+//  - 3278: 11线编码器, 298减速比, A相RISING计数
+//  - 2086: 7线编码器, 298减速比, A相RISING计数
+constexpr long COUNTS_PER_360 = 3278;
+constexpr long POSITION_TOLERANCE = 4;
+constexpr unsigned long DEBOUNCE_MS = 40;
+constexpr unsigned long MOVE_TIMEOUT_MS = 6000;
+
+Adafruit_MotorShield shield;
+Adafruit_DCMotor *motor = nullptr;
+
+volatile long encoderCount = 0;
+volatile int8_t motorDirection = 0; // +1正转, -1反转, 0停止
+
+bool lastFireBtn = HIGH;
+bool lastJoyBtn = HIGH;
+unsigned long lastFireDebounce = 0;
+unsigned long lastJoyDebounce = 0;
+
+void ISR_EncoderA() {
+  encoderCount += motorDirection;
+}
+
+long readCount() {
+  noInterrupts();
+  long v = encoderCount;
+  interrupts();
+  return v;
+}
+
+void releaseMotor() {
+  motorDirection = 0;
+  motor->setSpeed(0);
+  motor->run(RELEASE);
+}
+
+void rotateRelativeCounts(long delta) {
+  const long start = readCount();
+  const long target = start + delta;
+
+  motorDirection = (delta > 0) ? 1 : -1;
+  motor->setSpeed(MOTOR_SPEED);
+  motor->run((delta > 0) ? FORWARD : BACKWARD);
+
+  const unsigned long t0 = millis();
+  while (true) {
+    const long err = target - readCount();
+    if (labs(err) <= POSITION_TOLERANCE) {
+      break;
+    }
+    if (millis() - t0 > MOVE_TIMEOUT_MS) {
+      Serial.println(F("[WARN] Move timeout, stop motor."));
+      break;
+    }
+    delay(1);
+  }
+
+  releaseMotor();
+}
+
+void setup() {
+  Serial.begin(115200);
+
+  pinMode(PIN_TEST_FIRE_BTN, INPUT_PULLUP);
+  pinMode(PIN_JOY_BTN, INPUT_PULLUP);
+  pinMode(PIN_ENCODER_A, INPUT_PULLUP);
+
+  attachInterrupt(digitalPinToInterrupt(PIN_ENCODER_A), ISR_EncoderA, RISING);
+
+  if (!shield.begin()) {
+    Serial.println(F("Motor Shield init failed."));
+    while (true) {
+      delay(100);
+    }
+  }
+
+  motor = shield.getMotor(MOTOR_PORT);
+  releaseMotor();
+
+  Serial.println(F("Ready: D11=Forward 360, D5=Backward 360"));
+}
+
+void loop() {
+  const bool fireNow = digitalRead(PIN_TEST_FIRE_BTN);
+  const bool joyNow = digitalRead(PIN_JOY_BTN);
+
+  if (fireNow != lastFireBtn) {
+    lastFireDebounce = millis();
+  }
+  if ((millis() - lastFireDebounce) > DEBOUNCE_MS) {
+    // 下降沿触发：HIGH -> LOW
+    if (lastFireBtn == HIGH && fireNow == LOW) {
+      Serial.println(F("Forward 360"));
+      rotateRelativeCounts(+COUNTS_PER_360);
+    }
+  }
+
+  if (joyNow != lastJoyBtn) {
+    lastJoyDebounce = millis();
+  }
+  if ((millis() - lastJoyDebounce) > DEBOUNCE_MS) {
+    // 下降沿触发：HIGH -> LOW
+    if (lastJoyBtn == HIGH && joyNow == LOW) {
+      Serial.println(F("Backward 360"));
+      rotateRelativeCounts(-COUNTS_PER_360);
+    }
+  }
+
+  lastFireBtn = fireNow;
+  lastJoyBtn = joyNow;
+}

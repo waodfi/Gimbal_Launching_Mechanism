@@ -1,0 +1,278 @@
+[
+    {
+        "command": "C:\\Users\\19053\\.platformio\\packages\\toolchain-atmelavr\\bin\\avr-g++.exe -o .pio\\build\\uno\\FrameworkArduino\\CDC.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60119 -DARDUINO_AVR_UNO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\variants\\standard C:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino\\CDC.cpp",
+        "directory": "D:\\Project\\Arduino_Project\\\u4e91\u53f0\u53d1\u5c04\u673a\u6784\\Gimbal_Launching_Mechanism_2.0",
+        "file": "C:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino\\CDC.cpp",
+        "output": ".pio\\build\\uno\\FrameworkArduino\\CDC.cpp.o"
+    },
+    {
+        "command": "C:\\Users\\19053\\.platformio\\packages\\toolchain-atmelavr\\bin\\avr-g++.exe -o .pio\\build\\uno\\FrameworkArduino\\HardwareSerial.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60119 -DARDUINO_AVR_UNO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\variants\\standard C:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino\\HardwareSerial.cpp",
+        "directory": "D:\\Project\\Arduino_Project\\\u4e91\u53f0\u53d1\u5c04\u673a\u6784\\Gimbal_Launching_Mechanism_2.0",
+        "file": "C:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino\\HardwareSerial.cpp",
+        "output": ".pio\\build\\uno\\FrameworkArduino\\HardwareSerial.cpp.o"
+    },
+    {
+        "command": "C:\\Users\\19053\\.platformio\\packages\\toolchain-atmelavr\\bin\\avr-g++.exe -o .pio\\build\\uno\\FrameworkArduino\\HardwareSerial0.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60119 -DARDUINO_AVR_UNO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\variants\\standard C:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino\\HardwareSerial0.cpp",
+        "directory": "D:\\Project\\Arduino_Project\\\u4e91\u53f0\u53d1\u5c04\u673a\u6784\\Gimbal_Launching_Mechanism_2.0",
+        "file": "C:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino\\HardwareSerial0.cpp",
+        "output": ".pio\\build\\uno\\FrameworkArduino\\HardwareSerial0.cpp.o"
+    },
+    {
+        "command": "C:\\Users\\19053\\.platformio\\packages\\toolchain-atmelavr\\bin\\avr-g++.exe -o .pio\\build\\uno\\FrameworkArduino\\HardwareSerial1.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60119 -DARDUINO_AVR_UNO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\variants\\standard C:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino\\HardwareSerial1.cpp",
+        "directory": "D:\\Project\\Arduino_Project\\\u4e91\u53f0\u53d1\u5c04\u673a\u6784\\Gimbal_Launching_Mechanism_2.0",
+        "file": "C:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino\\HardwareSerial1.cpp",
+        "output": ".pio\\build\\uno\\FrameworkArduino\\HardwareSerial1.cpp.o"
+    },
+    {
+        "command": "C:\\Users\\19053\\.platformio\\packages\\toolchain-atmelavr\\bin\\avr-g++.exe -o .pio\\build\\uno\\FrameworkArduino\\HardwareSerial2.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60119 -DARDUINO_AVR_UNO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\variants\\standard C:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino\\HardwareSerial2.cpp",
+        "directory": "D:\\Project\\Arduino_Project\\\u4e91\u53f0\u53d1\u5c04\u673a\u6784\\Gimbal_Launching_Mechanism_2.0",
+        "file": "C:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino\\HardwareSerial2.cpp",
+        "output": ".pio\\build\\uno\\FrameworkArduino\\HardwareSerial2.cpp.o"
+    },
+    {
+        "command": "C:\\Users\\19053\\.platformio\\packages\\toolchain-atmelavr\\bin\\avr-g++.exe -o .pio\\build\\uno\\FrameworkArduino\\HardwareSerial3.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60119 -DARDUINO_AVR_UNO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\variants\\standard C:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino\\HardwareSerial3.cpp",
+        "directory": "D:\\Project\\Arduino_Project\\\u4e91\u53f0\u53d1\u5c04\u673a\u6784\\Gimbal_Launching_Mechanism_2.0",
+        "file": "C:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino\\HardwareSerial3.cpp",
+        "output": ".pio\\build\\uno\\FrameworkArduino\\HardwareSerial3.cpp.o"
+    },
+    {
+        "command": "C:\\Users\\19053\\.platformio\\packages\\toolchain-atmelavr\\bin\\avr-g++.exe -o .pio\\build\\uno\\FrameworkArduino\\IPAddress.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60119 -DARDUINO_AVR_UNO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\variants\\standard C:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino\\IPAddress.cpp",
+        "directory": "D:\\Project\\Arduino_Project\\\u4e91\u53f0\u53d1\u5c04\u673a\u6784\\Gimbal_Launching_Mechanism_2.0",
+        "file": "C:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino\\IPAddress.cpp",
+        "output": ".pio\\build\\uno\\FrameworkArduino\\IPAddress.cpp.o"
+    },
+    {
+        "command": "C:\\Users\\19053\\.platformio\\packages\\toolchain-atmelavr\\bin\\avr-g++.exe -o .pio\\build\\uno\\FrameworkArduino\\PluggableUSB.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60119 -DARDUINO_AVR_UNO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\variants\\standard C:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino\\PluggableUSB.cpp",
+        "directory": "D:\\Project\\Arduino_Project\\\u4e91\u53f0\u53d1\u5c04\u673a\u6784\\Gimbal_Launching_Mechanism_2.0",
+        "file": "C:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino\\PluggableUSB.cpp",
+        "output": ".pio\\build\\uno\\FrameworkArduino\\PluggableUSB.cpp.o"
+    },
+    {
+        "command": "C:\\Users\\19053\\.platformio\\packages\\toolchain-atmelavr\\bin\\avr-g++.exe -o .pio\\build\\uno\\FrameworkArduino\\Print.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60119 -DARDUINO_AVR_UNO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\variants\\standard C:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino\\Print.cpp",
+        "directory": "D:\\Project\\Arduino_Project\\\u4e91\u53f0\u53d1\u5c04\u673a\u6784\\Gimbal_Launching_Mechanism_2.0",
+        "file": "C:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino\\Print.cpp",
+        "output": ".pio\\build\\uno\\FrameworkArduino\\Print.cpp.o"
+    },
+    {
+        "command": "C:\\Users\\19053\\.platformio\\packages\\toolchain-atmelavr\\bin\\avr-g++.exe -o .pio\\build\\uno\\FrameworkArduino\\Stream.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60119 -DARDUINO_AVR_UNO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\variants\\standard C:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino\\Stream.cpp",
+        "directory": "D:\\Project\\Arduino_Project\\\u4e91\u53f0\u53d1\u5c04\u673a\u6784\\Gimbal_Launching_Mechanism_2.0",
+        "file": "C:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino\\Stream.cpp",
+        "output": ".pio\\build\\uno\\FrameworkArduino\\Stream.cpp.o"
+    },
+    {
+        "command": "C:\\Users\\19053\\.platformio\\packages\\toolchain-atmelavr\\bin\\avr-g++.exe -o .pio\\build\\uno\\FrameworkArduino\\Tone.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60119 -DARDUINO_AVR_UNO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\variants\\standard C:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino\\Tone.cpp",
+        "directory": "D:\\Project\\Arduino_Project\\\u4e91\u53f0\u53d1\u5c04\u673a\u6784\\Gimbal_Launching_Mechanism_2.0",
+        "file": "C:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino\\Tone.cpp",
+        "output": ".pio\\build\\uno\\FrameworkArduino\\Tone.cpp.o"
+    },
+    {
+        "command": "C:\\Users\\19053\\.platformio\\packages\\toolchain-atmelavr\\bin\\avr-g++.exe -o .pio\\build\\uno\\FrameworkArduino\\USBCore.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60119 -DARDUINO_AVR_UNO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\variants\\standard C:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino\\USBCore.cpp",
+        "directory": "D:\\Project\\Arduino_Project\\\u4e91\u53f0\u53d1\u5c04\u673a\u6784\\Gimbal_Launching_Mechanism_2.0",
+        "file": "C:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino\\USBCore.cpp",
+        "output": ".pio\\build\\uno\\FrameworkArduino\\USBCore.cpp.o"
+    },
+    {
+        "command": "C:\\Users\\19053\\.platformio\\packages\\toolchain-atmelavr\\bin\\avr-gcc.exe -o .pio\\build\\uno\\FrameworkArduino\\WInterrupts.c.o -c -std=gnu11 -fno-fat-lto-objects -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60119 -DARDUINO_AVR_UNO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\variants\\standard C:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino\\WInterrupts.c",
+        "directory": "D:\\Project\\Arduino_Project\\\u4e91\u53f0\u53d1\u5c04\u673a\u6784\\Gimbal_Launching_Mechanism_2.0",
+        "file": "C:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino\\WInterrupts.c",
+        "output": ".pio\\build\\uno\\FrameworkArduino\\WInterrupts.c.o"
+    },
+    {
+        "command": "C:\\Users\\19053\\.platformio\\packages\\toolchain-atmelavr\\bin\\avr-g++.exe -o .pio\\build\\uno\\FrameworkArduino\\WMath.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60119 -DARDUINO_AVR_UNO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\variants\\standard C:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino\\WMath.cpp",
+        "directory": "D:\\Project\\Arduino_Project\\\u4e91\u53f0\u53d1\u5c04\u673a\u6784\\Gimbal_Launching_Mechanism_2.0",
+        "file": "C:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino\\WMath.cpp",
+        "output": ".pio\\build\\uno\\FrameworkArduino\\WMath.cpp.o"
+    },
+    {
+        "command": "C:\\Users\\19053\\.platformio\\packages\\toolchain-atmelavr\\bin\\avr-g++.exe -o .pio\\build\\uno\\FrameworkArduino\\WString.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60119 -DARDUINO_AVR_UNO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\variants\\standard C:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino\\WString.cpp",
+        "directory": "D:\\Project\\Arduino_Project\\\u4e91\u53f0\u53d1\u5c04\u673a\u6784\\Gimbal_Launching_Mechanism_2.0",
+        "file": "C:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino\\WString.cpp",
+        "output": ".pio\\build\\uno\\FrameworkArduino\\WString.cpp.o"
+    },
+    {
+        "command": "C:\\Users\\19053\\.platformio\\packages\\toolchain-atmelavr\\bin\\avr-g++.exe -o .pio\\build\\uno\\FrameworkArduino\\abi.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60119 -DARDUINO_AVR_UNO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\variants\\standard C:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino\\abi.cpp",
+        "directory": "D:\\Project\\Arduino_Project\\\u4e91\u53f0\u53d1\u5c04\u673a\u6784\\Gimbal_Launching_Mechanism_2.0",
+        "file": "C:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino\\abi.cpp",
+        "output": ".pio\\build\\uno\\FrameworkArduino\\abi.cpp.o"
+    },
+    {
+        "command": "C:\\Users\\19053\\.platformio\\packages\\toolchain-atmelavr\\bin\\avr-gcc.exe -o .pio\\build\\uno\\FrameworkArduino\\hooks.c.o -c -std=gnu11 -fno-fat-lto-objects -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60119 -DARDUINO_AVR_UNO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\variants\\standard C:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino\\hooks.c",
+        "directory": "D:\\Project\\Arduino_Project\\\u4e91\u53f0\u53d1\u5c04\u673a\u6784\\Gimbal_Launching_Mechanism_2.0",
+        "file": "C:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino\\hooks.c",
+        "output": ".pio\\build\\uno\\FrameworkArduino\\hooks.c.o"
+    },
+    {
+        "command": "C:\\Users\\19053\\.platformio\\packages\\toolchain-atmelavr\\bin\\avr-g++.exe -o .pio\\build\\uno\\FrameworkArduino\\main.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60119 -DARDUINO_AVR_UNO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\variants\\standard C:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino\\main.cpp",
+        "directory": "D:\\Project\\Arduino_Project\\\u4e91\u53f0\u53d1\u5c04\u673a\u6784\\Gimbal_Launching_Mechanism_2.0",
+        "file": "C:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino\\main.cpp",
+        "output": ".pio\\build\\uno\\FrameworkArduino\\main.cpp.o"
+    },
+    {
+        "command": "C:\\Users\\19053\\.platformio\\packages\\toolchain-atmelavr\\bin\\avr-g++.exe -o .pio\\build\\uno\\FrameworkArduino\\new.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60119 -DARDUINO_AVR_UNO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\variants\\standard C:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino\\new.cpp",
+        "directory": "D:\\Project\\Arduino_Project\\\u4e91\u53f0\u53d1\u5c04\u673a\u6784\\Gimbal_Launching_Mechanism_2.0",
+        "file": "C:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino\\new.cpp",
+        "output": ".pio\\build\\uno\\FrameworkArduino\\new.cpp.o"
+    },
+    {
+        "command": "C:\\Users\\19053\\.platformio\\packages\\toolchain-atmelavr\\bin\\avr-gcc.exe -o .pio\\build\\uno\\FrameworkArduino\\wiring.c.o -c -std=gnu11 -fno-fat-lto-objects -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60119 -DARDUINO_AVR_UNO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\variants\\standard C:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino\\wiring.c",
+        "directory": "D:\\Project\\Arduino_Project\\\u4e91\u53f0\u53d1\u5c04\u673a\u6784\\Gimbal_Launching_Mechanism_2.0",
+        "file": "C:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino\\wiring.c",
+        "output": ".pio\\build\\uno\\FrameworkArduino\\wiring.c.o"
+    },
+    {
+        "command": "C:\\Users\\19053\\.platformio\\packages\\toolchain-atmelavr\\bin\\avr-gcc.exe -o .pio\\build\\uno\\FrameworkArduino\\wiring_analog.c.o -c -std=gnu11 -fno-fat-lto-objects -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60119 -DARDUINO_AVR_UNO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\variants\\standard C:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino\\wiring_analog.c",
+        "directory": "D:\\Project\\Arduino_Project\\\u4e91\u53f0\u53d1\u5c04\u673a\u6784\\Gimbal_Launching_Mechanism_2.0",
+        "file": "C:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino\\wiring_analog.c",
+        "output": ".pio\\build\\uno\\FrameworkArduino\\wiring_analog.c.o"
+    },
+    {
+        "command": "C:\\Users\\19053\\.platformio\\packages\\toolchain-atmelavr\\bin\\avr-gcc.exe -o .pio\\build\\uno\\FrameworkArduino\\wiring_digital.c.o -c -std=gnu11 -fno-fat-lto-objects -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60119 -DARDUINO_AVR_UNO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\variants\\standard C:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino\\wiring_digital.c",
+        "directory": "D:\\Project\\Arduino_Project\\\u4e91\u53f0\u53d1\u5c04\u673a\u6784\\Gimbal_Launching_Mechanism_2.0",
+        "file": "C:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino\\wiring_digital.c",
+        "output": ".pio\\build\\uno\\FrameworkArduino\\wiring_digital.c.o"
+    },
+    {
+        "command": "C:\\Users\\19053\\.platformio\\packages\\toolchain-atmelavr\\bin\\avr-gcc.exe -mmcu=atmega328p -x assembler-with-cpp -DPLATFORMIO=60119 -DARDUINO_AVR_UNO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\variants\\standard -c -o .pio\\build\\uno\\FrameworkArduino\\wiring_pulse.S.o C:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino\\wiring_pulse.S",
+        "directory": "D:\\Project\\Arduino_Project\\\u4e91\u53f0\u53d1\u5c04\u673a\u6784\\Gimbal_Launching_Mechanism_2.0",
+        "file": "C:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino\\wiring_pulse.S",
+        "output": ".pio\\build\\uno\\FrameworkArduino\\wiring_pulse.S.o"
+    },
+    {
+        "command": "C:\\Users\\19053\\.platformio\\packages\\toolchain-atmelavr\\bin\\avr-gcc.exe -o .pio\\build\\uno\\FrameworkArduino\\wiring_pulse.c.o -c -std=gnu11 -fno-fat-lto-objects -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60119 -DARDUINO_AVR_UNO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\variants\\standard C:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino\\wiring_pulse.c",
+        "directory": "D:\\Project\\Arduino_Project\\\u4e91\u53f0\u53d1\u5c04\u673a\u6784\\Gimbal_Launching_Mechanism_2.0",
+        "file": "C:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino\\wiring_pulse.c",
+        "output": ".pio\\build\\uno\\FrameworkArduino\\wiring_pulse.c.o"
+    },
+    {
+        "command": "C:\\Users\\19053\\.platformio\\packages\\toolchain-atmelavr\\bin\\avr-gcc.exe -o .pio\\build\\uno\\FrameworkArduino\\wiring_shift.c.o -c -std=gnu11 -fno-fat-lto-objects -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60119 -DARDUINO_AVR_UNO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\variants\\standard C:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino\\wiring_shift.c",
+        "directory": "D:\\Project\\Arduino_Project\\\u4e91\u53f0\u53d1\u5c04\u673a\u6784\\Gimbal_Launching_Mechanism_2.0",
+        "file": "C:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino\\wiring_shift.c",
+        "output": ".pio\\build\\uno\\FrameworkArduino\\wiring_shift.c.o"
+    },
+    {
+        "command": "C:\\Users\\19053\\.platformio\\packages\\toolchain-atmelavr\\bin\\avr-g++.exe -o .pio\\build\\uno\\lib01c\\Wire\\Wire.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60119 -DARDUINO_AVR_UNO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\libraries\\Wire\\src -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\variants\\standard C:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\libraries\\Wire\\src\\Wire.cpp",
+        "directory": "D:\\Project\\Arduino_Project\\\u4e91\u53f0\u53d1\u5c04\u673a\u6784\\Gimbal_Launching_Mechanism_2.0",
+        "file": "C:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\libraries\\Wire\\src\\Wire.cpp",
+        "output": ".pio\\build\\uno\\lib01c\\Wire\\Wire.cpp.o"
+    },
+    {
+        "command": "C:\\Users\\19053\\.platformio\\packages\\toolchain-atmelavr\\bin\\avr-gcc.exe -o .pio\\build\\uno\\lib01c\\Wire\\utility\\twi.c.o -c -std=gnu11 -fno-fat-lto-objects -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60119 -DARDUINO_AVR_UNO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\libraries\\Wire\\src -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\variants\\standard C:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\libraries\\Wire\\src\\utility\\twi.c",
+        "directory": "D:\\Project\\Arduino_Project\\\u4e91\u53f0\u53d1\u5c04\u673a\u6784\\Gimbal_Launching_Mechanism_2.0",
+        "file": "C:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\libraries\\Wire\\src\\utility\\twi.c",
+        "output": ".pio\\build\\uno\\lib01c\\Wire\\utility\\twi.c.o"
+    },
+    {
+        "command": "C:\\Users\\19053\\.platformio\\packages\\toolchain-atmelavr\\bin\\avr-g++.exe -o .pio\\build\\uno\\liba23\\SPI\\SPI.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60119 -DARDUINO_AVR_UNO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\libraries\\SPI\\src -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\variants\\standard C:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\libraries\\SPI\\src\\SPI.cpp",
+        "directory": "D:\\Project\\Arduino_Project\\\u4e91\u53f0\u53d1\u5c04\u673a\u6784\\Gimbal_Launching_Mechanism_2.0",
+        "file": "C:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\libraries\\SPI\\src\\SPI.cpp",
+        "output": ".pio\\build\\uno\\liba23\\SPI\\SPI.cpp.o"
+    },
+    {
+        "command": "C:\\Users\\19053\\.platformio\\packages\\toolchain-atmelavr\\bin\\avr-g++.exe -o \".pio\\build\\uno\\lib5ae\\Adafruit BusIO\\Adafruit_BusIO_Register.cpp.o\" -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60119 -DARDUINO_AVR_UNO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 \"-I.pio\\libdeps\\uno\\Adafruit BusIO\" -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\libraries\\SPI\\src -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\libraries\\Wire\\src -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\variants\\standard \".pio\\libdeps\\uno\\Adafruit BusIO\\Adafruit_BusIO_Register.cpp\"",
+        "directory": "D:\\Project\\Arduino_Project\\\u4e91\u53f0\u53d1\u5c04\u673a\u6784\\Gimbal_Launching_Mechanism_2.0",
+        "file": ".pio\\libdeps\\uno\\Adafruit BusIO\\Adafruit_BusIO_Register.cpp",
+        "output": ".pio\\build\\uno\\lib5ae\\Adafruit BusIO\\Adafruit_BusIO_Register.cpp.o"
+    },
+    {
+        "command": "C:\\Users\\19053\\.platformio\\packages\\toolchain-atmelavr\\bin\\avr-g++.exe -o \".pio\\build\\uno\\lib5ae\\Adafruit BusIO\\Adafruit_GenericDevice.cpp.o\" -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60119 -DARDUINO_AVR_UNO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 \"-I.pio\\libdeps\\uno\\Adafruit BusIO\" -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\libraries\\SPI\\src -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\libraries\\Wire\\src -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\variants\\standard \".pio\\libdeps\\uno\\Adafruit BusIO\\Adafruit_GenericDevice.cpp\"",
+        "directory": "D:\\Project\\Arduino_Project\\\u4e91\u53f0\u53d1\u5c04\u673a\u6784\\Gimbal_Launching_Mechanism_2.0",
+        "file": ".pio\\libdeps\\uno\\Adafruit BusIO\\Adafruit_GenericDevice.cpp",
+        "output": ".pio\\build\\uno\\lib5ae\\Adafruit BusIO\\Adafruit_GenericDevice.cpp.o"
+    },
+    {
+        "command": "C:\\Users\\19053\\.platformio\\packages\\toolchain-atmelavr\\bin\\avr-g++.exe -o \".pio\\build\\uno\\lib5ae\\Adafruit BusIO\\Adafruit_I2CDevice.cpp.o\" -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60119 -DARDUINO_AVR_UNO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 \"-I.pio\\libdeps\\uno\\Adafruit BusIO\" -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\libraries\\SPI\\src -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\libraries\\Wire\\src -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\variants\\standard \".pio\\libdeps\\uno\\Adafruit BusIO\\Adafruit_I2CDevice.cpp\"",
+        "directory": "D:\\Project\\Arduino_Project\\\u4e91\u53f0\u53d1\u5c04\u673a\u6784\\Gimbal_Launching_Mechanism_2.0",
+        "file": ".pio\\libdeps\\uno\\Adafruit BusIO\\Adafruit_I2CDevice.cpp",
+        "output": ".pio\\build\\uno\\lib5ae\\Adafruit BusIO\\Adafruit_I2CDevice.cpp.o"
+    },
+    {
+        "command": "C:\\Users\\19053\\.platformio\\packages\\toolchain-atmelavr\\bin\\avr-g++.exe -o \".pio\\build\\uno\\lib5ae\\Adafruit BusIO\\Adafruit_SPIDevice.cpp.o\" -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60119 -DARDUINO_AVR_UNO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 \"-I.pio\\libdeps\\uno\\Adafruit BusIO\" -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\libraries\\SPI\\src -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\libraries\\Wire\\src -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\variants\\standard \".pio\\libdeps\\uno\\Adafruit BusIO\\Adafruit_SPIDevice.cpp\"",
+        "directory": "D:\\Project\\Arduino_Project\\\u4e91\u53f0\u53d1\u5c04\u673a\u6784\\Gimbal_Launching_Mechanism_2.0",
+        "file": ".pio\\libdeps\\uno\\Adafruit BusIO\\Adafruit_SPIDevice.cpp",
+        "output": ".pio\\build\\uno\\lib5ae\\Adafruit BusIO\\Adafruit_SPIDevice.cpp.o"
+    },
+    {
+        "command": "C:\\Users\\19053\\.platformio\\packages\\toolchain-atmelavr\\bin\\avr-g++.exe -o \".pio\\build\\uno\\libc8d\\Adafruit Motor Shield V2 Library\\Adafruit_MotorShield.cpp.o\" -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60119 -DARDUINO_AVR_UNO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 \"-I.pio\\libdeps\\uno\\Adafruit Motor Shield V2 Library\" \"-I.pio\\libdeps\\uno\\Adafruit Motor Shield V2 Library\\utility\" \"-I.pio\\libdeps\\uno\\Adafruit BusIO\" -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\libraries\\SPI\\src -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\libraries\\Wire\\src -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\variants\\standard \".pio\\libdeps\\uno\\Adafruit Motor Shield V2 Library\\Adafruit_MotorShield.cpp\"",
+        "directory": "D:\\Project\\Arduino_Project\\\u4e91\u53f0\u53d1\u5c04\u673a\u6784\\Gimbal_Launching_Mechanism_2.0",
+        "file": ".pio\\libdeps\\uno\\Adafruit Motor Shield V2 Library\\Adafruit_MotorShield.cpp",
+        "output": ".pio\\build\\uno\\libc8d\\Adafruit Motor Shield V2 Library\\Adafruit_MotorShield.cpp.o"
+    },
+    {
+        "command": "C:\\Users\\19053\\.platformio\\packages\\toolchain-atmelavr\\bin\\avr-g++.exe -o \".pio\\build\\uno\\libc8d\\Adafruit Motor Shield V2 Library\\utility\\Adafruit_MS_PWMServoDriver.cpp.o\" -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60119 -DARDUINO_AVR_UNO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 \"-I.pio\\libdeps\\uno\\Adafruit Motor Shield V2 Library\" \"-I.pio\\libdeps\\uno\\Adafruit Motor Shield V2 Library\\utility\" \"-I.pio\\libdeps\\uno\\Adafruit BusIO\" -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\libraries\\SPI\\src -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\libraries\\Wire\\src -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\variants\\standard \".pio\\libdeps\\uno\\Adafruit Motor Shield V2 Library\\utility\\Adafruit_MS_PWMServoDriver.cpp\"",
+        "directory": "D:\\Project\\Arduino_Project\\\u4e91\u53f0\u53d1\u5c04\u673a\u6784\\Gimbal_Launching_Mechanism_2.0",
+        "file": ".pio\\libdeps\\uno\\Adafruit Motor Shield V2 Library\\utility\\Adafruit_MS_PWMServoDriver.cpp",
+        "output": ".pio\\build\\uno\\libc8d\\Adafruit Motor Shield V2 Library\\utility\\Adafruit_MS_PWMServoDriver.cpp.o"
+    },
+    {
+        "command": "C:\\Users\\19053\\.platformio\\packages\\toolchain-atmelavr\\bin\\avr-g++.exe -o .pio\\build\\uno\\libe0c\\Servo\\avr\\Servo.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60119 -DARDUINO_AVR_UNO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I.pio\\libdeps\\uno\\Servo\\src -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\variants\\standard .pio\\libdeps\\uno\\Servo\\src\\avr\\Servo.cpp",
+        "directory": "D:\\Project\\Arduino_Project\\\u4e91\u53f0\u53d1\u5c04\u673a\u6784\\Gimbal_Launching_Mechanism_2.0",
+        "file": ".pio\\libdeps\\uno\\Servo\\src\\avr\\Servo.cpp",
+        "output": ".pio\\build\\uno\\libe0c\\Servo\\avr\\Servo.cpp.o"
+    },
+    {
+        "command": "C:\\Users\\19053\\.platformio\\packages\\toolchain-atmelavr\\bin\\avr-g++.exe -o .pio\\build\\uno\\libe0c\\Servo\\esp32\\Servo.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60119 -DARDUINO_AVR_UNO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I.pio\\libdeps\\uno\\Servo\\src -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\variants\\standard .pio\\libdeps\\uno\\Servo\\src\\esp32\\Servo.cpp",
+        "directory": "D:\\Project\\Arduino_Project\\\u4e91\u53f0\u53d1\u5c04\u673a\u6784\\Gimbal_Launching_Mechanism_2.0",
+        "file": ".pio\\libdeps\\uno\\Servo\\src\\esp32\\Servo.cpp",
+        "output": ".pio\\build\\uno\\libe0c\\Servo\\esp32\\Servo.cpp.o"
+    },
+    {
+        "command": "C:\\Users\\19053\\.platformio\\packages\\toolchain-atmelavr\\bin\\avr-g++.exe -o .pio\\build\\uno\\libe0c\\Servo\\mbed\\Servo.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60119 -DARDUINO_AVR_UNO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I.pio\\libdeps\\uno\\Servo\\src -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\variants\\standard .pio\\libdeps\\uno\\Servo\\src\\mbed\\Servo.cpp",
+        "directory": "D:\\Project\\Arduino_Project\\\u4e91\u53f0\u53d1\u5c04\u673a\u6784\\Gimbal_Launching_Mechanism_2.0",
+        "file": ".pio\\libdeps\\uno\\Servo\\src\\mbed\\Servo.cpp",
+        "output": ".pio\\build\\uno\\libe0c\\Servo\\mbed\\Servo.cpp.o"
+    },
+    {
+        "command": "C:\\Users\\19053\\.platformio\\packages\\toolchain-atmelavr\\bin\\avr-g++.exe -o .pio\\build\\uno\\libe0c\\Servo\\megaavr\\Servo.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60119 -DARDUINO_AVR_UNO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I.pio\\libdeps\\uno\\Servo\\src -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\variants\\standard .pio\\libdeps\\uno\\Servo\\src\\megaavr\\Servo.cpp",
+        "directory": "D:\\Project\\Arduino_Project\\\u4e91\u53f0\u53d1\u5c04\u673a\u6784\\Gimbal_Launching_Mechanism_2.0",
+        "file": ".pio\\libdeps\\uno\\Servo\\src\\megaavr\\Servo.cpp",
+        "output": ".pio\\build\\uno\\libe0c\\Servo\\megaavr\\Servo.cpp.o"
+    },
+    {
+        "command": "C:\\Users\\19053\\.platformio\\packages\\toolchain-atmelavr\\bin\\avr-g++.exe -o .pio\\build\\uno\\libe0c\\Servo\\nrf52\\Servo.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60119 -DARDUINO_AVR_UNO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I.pio\\libdeps\\uno\\Servo\\src -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\variants\\standard .pio\\libdeps\\uno\\Servo\\src\\nrf52\\Servo.cpp",
+        "directory": "D:\\Project\\Arduino_Project\\\u4e91\u53f0\u53d1\u5c04\u673a\u6784\\Gimbal_Launching_Mechanism_2.0",
+        "file": ".pio\\libdeps\\uno\\Servo\\src\\nrf52\\Servo.cpp",
+        "output": ".pio\\build\\uno\\libe0c\\Servo\\nrf52\\Servo.cpp.o"
+    },
+    {
+        "command": "C:\\Users\\19053\\.platformio\\packages\\toolchain-atmelavr\\bin\\avr-g++.exe -o .pio\\build\\uno\\libe0c\\Servo\\renesas\\Servo.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60119 -DARDUINO_AVR_UNO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I.pio\\libdeps\\uno\\Servo\\src -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\variants\\standard .pio\\libdeps\\uno\\Servo\\src\\renesas\\Servo.cpp",
+        "directory": "D:\\Project\\Arduino_Project\\\u4e91\u53f0\u53d1\u5c04\u673a\u6784\\Gimbal_Launching_Mechanism_2.0",
+        "file": ".pio\\libdeps\\uno\\Servo\\src\\renesas\\Servo.cpp",
+        "output": ".pio\\build\\uno\\libe0c\\Servo\\renesas\\Servo.cpp.o"
+    },
+    {
+        "command": "C:\\Users\\19053\\.platformio\\packages\\toolchain-atmelavr\\bin\\avr-g++.exe -o .pio\\build\\uno\\libe0c\\Servo\\sam\\Servo.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60119 -DARDUINO_AVR_UNO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I.pio\\libdeps\\uno\\Servo\\src -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\variants\\standard .pio\\libdeps\\uno\\Servo\\src\\sam\\Servo.cpp",
+        "directory": "D:\\Project\\Arduino_Project\\\u4e91\u53f0\u53d1\u5c04\u673a\u6784\\Gimbal_Launching_Mechanism_2.0",
+        "file": ".pio\\libdeps\\uno\\Servo\\src\\sam\\Servo.cpp",
+        "output": ".pio\\build\\uno\\libe0c\\Servo\\sam\\Servo.cpp.o"
+    },
+    {
+        "command": "C:\\Users\\19053\\.platformio\\packages\\toolchain-atmelavr\\bin\\avr-g++.exe -o .pio\\build\\uno\\libe0c\\Servo\\samd\\Servo.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60119 -DARDUINO_AVR_UNO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I.pio\\libdeps\\uno\\Servo\\src -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\variants\\standard .pio\\libdeps\\uno\\Servo\\src\\samd\\Servo.cpp",
+        "directory": "D:\\Project\\Arduino_Project\\\u4e91\u53f0\u53d1\u5c04\u673a\u6784\\Gimbal_Launching_Mechanism_2.0",
+        "file": ".pio\\libdeps\\uno\\Servo\\src\\samd\\Servo.cpp",
+        "output": ".pio\\build\\uno\\libe0c\\Servo\\samd\\Servo.cpp.o"
+    },
+    {
+        "command": "C:\\Users\\19053\\.platformio\\packages\\toolchain-atmelavr\\bin\\avr-g++.exe -o .pio\\build\\uno\\libe0c\\Servo\\stm32f4\\Servo.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60119 -DARDUINO_AVR_UNO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I.pio\\libdeps\\uno\\Servo\\src -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\variants\\standard .pio\\libdeps\\uno\\Servo\\src\\stm32f4\\Servo.cpp",
+        "directory": "D:\\Project\\Arduino_Project\\\u4e91\u53f0\u53d1\u5c04\u673a\u6784\\Gimbal_Launching_Mechanism_2.0",
+        "file": ".pio\\libdeps\\uno\\Servo\\src\\stm32f4\\Servo.cpp",
+        "output": ".pio\\build\\uno\\libe0c\\Servo\\stm32f4\\Servo.cpp.o"
+    },
+    {
+        "command": "C:\\Users\\19053\\.platformio\\packages\\toolchain-atmelavr\\bin\\avr-g++.exe -o .pio\\build\\uno\\libe0c\\Servo\\xmc\\Servo.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60119 -DARDUINO_AVR_UNO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I.pio\\libdeps\\uno\\Servo\\src -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\variants\\standard .pio\\libdeps\\uno\\Servo\\src\\xmc\\Servo.cpp",
+        "directory": "D:\\Project\\Arduino_Project\\\u4e91\u53f0\u53d1\u5c04\u673a\u6784\\Gimbal_Launching_Mechanism_2.0",
+        "file": ".pio\\libdeps\\uno\\Servo\\src\\xmc\\Servo.cpp",
+        "output": ".pio\\build\\uno\\libe0c\\Servo\\xmc\\Servo.cpp.o"
+    },
+    {
+        "command": "C:\\Users\\19053\\.platformio\\packages\\toolchain-atmelavr\\bin\\avr-g++.exe -o .pio\\build\\uno\\libe0c\\Servo\\zephyr\\Servo.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60119 -DARDUINO_AVR_UNO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I.pio\\libdeps\\uno\\Servo\\src -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\variants\\standard .pio\\libdeps\\uno\\Servo\\src\\zephyr\\Servo.cpp",
+        "directory": "D:\\Project\\Arduino_Project\\\u4e91\u53f0\u53d1\u5c04\u673a\u6784\\Gimbal_Launching_Mechanism_2.0",
+        "file": ".pio\\libdeps\\uno\\Servo\\src\\zephyr\\Servo.cpp",
+        "output": ".pio\\build\\uno\\libe0c\\Servo\\zephyr\\Servo.cpp.o"
+    },
+    {
+        "command": "C:\\Users\\19053\\.platformio\\packages\\toolchain-atmelavr\\bin\\avr-g++.exe -o .pio\\build\\uno\\src\\main.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60119 -DARDUINO_AVR_UNO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -Iinclude -Isrc -I.pio\\libdeps\\uno\\Servo\\src \"-I.pio\\libdeps\\uno\\Adafruit Motor Shield V2 Library\" \"-I.pio\\libdeps\\uno\\Adafruit Motor Shield V2 Library\\utility\" \"-I.pio\\libdeps\\uno\\Adafruit BusIO\" -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\libraries\\SPI\\src -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\libraries\\Wire\\src -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\cores\\arduino -IC:\\Users\\19053\\.platformio\\packages\\framework-arduino-avr\\variants\\standard src\\main.cpp",
+        "directory": "D:\\Project\\Arduino_Project\\\u4e91\u53f0\u53d1\u5c04\u673a\u6784\\Gimbal_Launching_Mechanism_2.0",
+        "file": "src\\main.cpp",
+        "output": ".pio\\build\\uno\\src\\main.cpp.o"
+    }
+]
