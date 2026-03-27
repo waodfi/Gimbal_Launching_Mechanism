@@ -38,3 +38,8 @@ struct TargetPosition {
 };
 
 #define MAX_TARGETS 5
+
+// ===== 云台特定位置定义 =====
+// 预装填/搭弹位置
+constexpr int LOAD_YAW = 90;
+constexpr int LOAD_PITCH = 135;

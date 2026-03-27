@@ -1,0 +1,194 @@
+// 供弹电机定时转动调试程序
+// 功能：每隔指定时间自动转动指定角度，用于实测减速比和调参
+// 调参说明：
+//   1. 修改 COUNTS_PER_360 直到实际转动360度时编码器计数准确
+//   2. 修改 TARGET_ANGLE 设置每次转动角度（默认60度）
+//   3. 修改 INTERVAL_MS 设置转动间隔时间（默认3秒）
+
+#include <Arduino.h>
+#include <SPI.h>
+#include <Wire.h>
+#include <Adafruit_MotorShield.h>
+#include "Config.h"
+
+// ===== 供弹电机配置 =====
+constexpr uint8_t PIN_ENCODER_A = PIN_FEED_ENCA;  // 使用供弹编码器A相
+constexpr uint8_t MOTOR_PORT = 2;                  // 供弹电机在M2口
+constexpr uint8_t MOTOR_SPEED = 180;               // 电机速度 0-255
+
+// ===== 调参区域 =====
+// 每圈编码器计数，需要实测调整：常见 3278(11线) 或 2086(7线)
+// 根据实测：60度实际转50度，需要调整为 6556 * (60/50) = 7867
+constexpr long COUNTS_PER_360 = 8800;
+
+// 电机方向控制：+1 = 正向，-1 = 反向
+// 如果转动方向和预期相反，改成 -1
+constexpr int8_t MOTOR_DIRECTION = -1;
+
+// 初始位置（度）
+// 开机后电机会先转到这个角度，然后再开始定时转动
+// 设为 0 表示不进行初始定位
+constexpr int INITIAL_ANGLE = 0;
+
+// 每次转动角度（度）
+constexpr int TARGET_ANGLE = 60;
+
+// 转动间隔时间（毫秒）
+constexpr unsigned long INTERVAL_MS = 5000;
+
+// ===== 控制参数 =====
+constexpr long POSITION_TOLERANCE = 4;             // 位置容差
+constexpr unsigned long MOVE_TIMEOUT_MS = 6000;    // 单次转动超时
+
+Adafruit_MotorShield shield;
+Adafruit_DCMotor *motor = nullptr;
+
+volatile long encoderCount = 0;
+volatile int8_t motorDirection = 0;
+
+unsigned long lastMoveTime = 0;
+int moveCounter = 0;
+
+void ISR_EncoderA() {
+    encoderCount += motorDirection;
+}
+
+long readCount() {
+    noInterrupts();
+    long v = encoderCount;
+    interrupts();
+    return v;
+}
+
+void releaseMotor() {
+    motorDirection = 0;
+    motor->setSpeed(0);
+    motor->run(RELEASE);
+}
+
+void rotateRelativeCounts(long delta) {
+    const long start = readCount();
+    
+    // 应用方向控制参数
+    const long adjustedDelta = delta * MOTOR_DIRECTION;
+    const long target = start + adjustedDelta;
+    
+    motorDirection = (adjustedDelta > 0) ? 1 : -1;
+    motor->setSpeed(MOTOR_SPEED);
+    motor->run((adjustedDelta > 0) ? FORWARD : BACKWARD);
+
+    const unsigned long t0 = millis();
+    while (true) {
+        const long err = target - readCount();
+        if (labs(err) <= POSITION_TOLERANCE) {
+            break;
+        }
+        if (millis() - t0 > MOVE_TIMEOUT_MS) {
+            Serial.println(F("[WARN] Move timeout, stop motor."));
+            break;
+        }
+        delay(1);
+    }
+
+    releaseMotor();
+}
+
+void setup() {
+    Serial.begin(115200);
+    delay(100);
+
+    Serial.println(F("========================================"));
+    Serial.println(F("供弹电机定时转动调试程序"));
+    Serial.println(F("========================================"));
+
+    pinMode(PIN_ENCODER_A, INPUT_PULLUP);
+    attachInterrupt(digitalPinToInterrupt(PIN_ENCODER_A), ISR_EncoderA, RISING);
+
+    if (!shield.begin()) {
+        Serial.println(F("[ERROR] Motor Shield 初始化失败"));
+        while (true) {
+            delay(100);
+        }
+    }
+
+    motor = shield.getMotor(MOTOR_PORT);
+    releaseMotor();
+
+    Serial.println(F("[INFO] 初始化完成"));
+    Serial.print(F("[INFO] 电机端口: M"));
+    Serial.println(MOTOR_PORT);
+    Serial.print(F("[INFO] 编码器引脚: D"));
+    Serial.println(PIN_ENCODER_A);
+    Serial.print(F("[INFO] 每次转动角度: "));
+    Serial.print(TARGET_ANGLE);
+    Serial.println(F("度"));
+    Serial.print(F("[INFO] 转动间隔: "));
+    Serial.print(INTERVAL_MS / 1000.0);
+    Serial.println(F("秒"));
+    Serial.print(F("[INFO] 当前设定每圈计数: "));
+    Serial.println(COUNTS_PER_360);
+    
+    // 如果设置了初始位置，先转到初始位置
+    if (INITIAL_ANGLE != 0) {
+        Serial.print(F("[INFO] 转到初始位置: "));
+        Serial.print(INITIAL_ANGLE);
+        Serial.println(F("度"));
+        
+        const long initialCounts = (COUNTS_PER_360 * INITIAL_ANGLE) / 360;
+        rotateRelativeCounts(initialCounts);
+        
+        Serial.println(F("[INFO] 初始定位完成"));
+    }
+    
+    Serial.println(F("[INFO] 开始定时转动..."));
+    Serial.println();
+
+    lastMoveTime = millis();
+}
+
+void loop() {
+    // 检查是否到了转动时间
+    if (millis() - lastMoveTime >= INTERVAL_MS) {
+        lastMoveTime = millis();
+        moveCounter++;
+
+        // 计算目标计数
+        const long targetCounts = (COUNTS_PER_360 * TARGET_ANGLE) / 360;
+
+        Serial.print(F("[#"));
+        Serial.print(moveCounter);
+        Serial.print(F("] 开始转动 "));
+        Serial.print(TARGET_ANGLE);
+        Serial.print(F("度 (目标计数: "));
+        Serial.print(targetCounts);
+        Serial.println(F(")"));
+
+        const long startCount = readCount();
+        const unsigned long startTime = millis();
+
+        // 执行转动
+        rotateRelativeCounts(targetCounts);
+
+        const long actualCounts = readCount() - startCount;
+        const unsigned long duration = millis() - startTime;
+
+        // 打印结果
+        Serial.print(F("  实际计数: "));
+        Serial.print(actualCounts);
+        Serial.print(F(" | 误差: "));
+        Serial.print(actualCounts - targetCounts);
+        Serial.print(F(" | 用时: "));
+        Serial.print(duration);
+        Serial.println(F("ms"));
+
+        // 计算实际角度
+        const float actualAngle = (actualCounts * 360.0) / COUNTS_PER_360;
+        Serial.print(F("  实际角度: "));
+        Serial.print(actualAngle, 2);
+        Serial.print(F("度 | 累计计数: "));
+        Serial.println(readCount());
+        Serial.println();
+    }
+
+    delay(10);
+}

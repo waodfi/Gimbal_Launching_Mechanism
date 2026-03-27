@@ -1,176 +1,283 @@
-﻿// N20 按钮控制测试程序
-// 1) 按试射按钮(D11) -> N20 正向转 360 度
-// 2) 按摇杆按钮(D5)  -> N20 反向转 360 度
-
-#include <Arduino.h>
-#include <SPI.h>
-#include <Wire.h>
-#include <Adafruit_MotorShield.h>
-#include <Servo.h>
+﻿#include <Arduino.h>
+#include <EEPROM.h>
 #include "Config.h"
+#include "GimbalModule.h"
+#include "LauncherModule.h"
 
-constexpr uint8_t PIN_ENCODER_A = PIN_LAUNCH_ENCA;
+// 当前系统模式
+SystemMode currentMode = MODE_TUNING;
 
-constexpr uint8_t MOTOR_PORT = 1;
-constexpr uint8_t MOTOR_SPEED = 180;
+// 状态机变量 - 调试模式
+int tuningTargetIndex = 0;
+bool hasBullet = true; // 假设初始已预装填第一个小球
+bool tuningCompleted = false;
 
-// 每圈计数，请按你的电机微调：常见 3278(11线) 或 2086(7线)
-constexpr long COUNTS_PER_360 = 3278;
-constexpr long POSITION_TOLERANCE = 4;
-constexpr unsigned long DEBOUNCE_MS = 40;
-constexpr unsigned long MOVE_TIMEOUT_MS = 6000;
-constexpr int JOY_CENTER = 512;
-constexpr int JOY_DEADZONE = 100;
-constexpr int SERVO_STEP = 1;
+// 状态机变量 - 比赛模式
+bool competitionStarted = false;
+int competitionTargetIndex = 0;
 
-Adafruit_MotorShield shield;
-Adafruit_DCMotor *motor = nullptr;
-Servo servoYaw;
-Servo servoPitch;
+// 按键防抖
+bool testFireRawState = HIGH;
+bool testFireStableState = HIGH;
+unsigned long lastTestFireChangeTime = 0;
+const unsigned long DEBOUNCE_MS = 50;
 
-volatile long encoderCount = 0;
-volatile int8_t motorDirection = 0;
-
-int yawAngle = 90;
-int pitchAngle = 90;
-
-bool lastFireBtn = HIGH;
-bool lastJoyBtn = HIGH;
-unsigned long lastFireTriggerMs = 0;
-unsigned long lastJoyTriggerMs = 0;
-
-void ISR_EncoderA() {
-    encoderCount += motorDirection;
-}
-
-long readCount() {
-    noInterrupts();
-    long v = encoderCount;
-    interrupts();
-    return v;
-}
-
-void releaseMotor() {
-    motorDirection = 0;
-    motor->setSpeed(0);
-    motor->run(RELEASE);
-}
-
-void rotateRelativeCounts(long delta) {
-    const long start = readCount();
-    const long target = start + delta;
-
-    motorDirection = (delta > 0) ? 1 : -1;
-    motor->setSpeed(MOTOR_SPEED);
-    motor->run((delta > 0) ? FORWARD : BACKWARD);
-
-    const unsigned long t0 = millis();
-    while (true) {
-        const long err = target - readCount();
-        if (labs(err) <= POSITION_TOLERANCE) {
-            break;
-        }
-        if (millis() - t0 > MOVE_TIMEOUT_MS) {
-            Serial.println(F("[WARN] Move timeout, stop motor."));
-            break;
-        }
-        delay(1);
-    }
-
-    releaseMotor();
-}
+bool joyBtnRawState = HIGH;
+bool joyBtnStableState = HIGH;
+unsigned long lastJoyBtnChangeTime = 0;
 
 void setup() {
     Serial.begin(115200);
+    delay(100);
+    Serial.println(F("========================================"));
+    Serial.println(F("Gimbal Launching Mechanism 2.0"));
+    Serial.println(F("========================================"));
 
+    // 初始化引脚
+    pinMode(PIN_MODE_SWITCH, INPUT_PULLUP);
     pinMode(PIN_TEST_FIRE_BTN, INPUT_PULLUP);
     pinMode(PIN_JOY_BTN, INPUT_PULLUP);
-    pinMode(PIN_ENCODER_A, INPUT_PULLUP);
-    delay(20);
+    
+    // 初始化防抖状态以匹配当前的真实硬件电平
+    testFireRawState = digitalRead(PIN_TEST_FIRE_BTN);
+    testFireStableState = testFireRawState;
+    joyBtnRawState = digitalRead(PIN_JOY_BTN);
+    joyBtnStableState = joyBtnRawState;
 
-    lastFireBtn = digitalRead(PIN_TEST_FIRE_BTN);
-    lastJoyBtn = digitalRead(PIN_JOY_BTN);
+    // 初始化子模块
+    Gimbal_Init();
+    Launcher_Init();
 
-    // 开机诊断：打印各按钮引脚实际电平
-    Serial.print(F("[DIAG] PIN_TEST_FIRE_BTN(D"));
-    Serial.print(PIN_TEST_FIRE_BTN);
-    Serial.print(F(") = "));
-    Serial.println(digitalRead(PIN_TEST_FIRE_BTN) ? F("HIGH") : F("LOW"));
-    Serial.print(F("[DIAG] PIN_JOY_BTN(D"));
-    Serial.print(PIN_JOY_BTN);
-    Serial.print(F(") = "));
-    Serial.println(digitalRead(PIN_JOY_BTN) ? F("HIGH") : F("LOW"));
+    // 从 EEPROM 加载保存的目标
+    Gimbal_LoadTargetsFromEEPROM();
 
-    attachInterrupt(digitalPinToInterrupt(PIN_ENCODER_A), ISR_EncoderA, RISING);
-
-    if (!shield.begin()) {
-        Serial.println(F("Motor Shield init failed."));
-        while (true) {
-            delay(100);
-        }
+    // 初始化模式
+    if (digitalRead(PIN_MODE_SWITCH) == LOW) {
+        currentMode = MODE_COMPETITION;
+        Serial.println(F("Mode: COMPETITION"));
+    } else {
+        currentMode = MODE_TUNING;
+        Serial.println(F("Mode: TUNING"));
+        
+        // 调试模式初始化：移动到第一个目标的初始位置（或默认位置）
+        tuningTargetIndex = 0;
+        tuningCompleted = false;
+        hasBullet = true;
+        TargetPosition target = Gimbal_GetTarget(tuningTargetIndex);
+        Gimbal_MoveToTarget(target);
     }
-
-    motor = shield.getMotor(MOTOR_PORT);
-    releaseMotor();
-
-    servoYaw.attach(PIN_SERVO_YAW);
-    servoPitch.attach(PIN_SERVO_PITCH);
-    servoYaw.write(yawAngle);
-    servoPitch.write(pitchAngle);
-
-    Serial.println(F("Ready: D11=Forward360, D5=Backward360, Joystick(A0/A1)=Servo"));
 }
 
 void loop() {
-    // --- 摇杆实时控制双舵机 ---
-    const int joyX = analogRead(PIN_JOY_X);
-    const int joyY = analogRead(PIN_JOY_Y);
+    // === 硬件调试专用代码，测试完毕后请注释掉 ===
+    /*
+    Serial.print("D12 (Fire Btn): ");
+    Serial.print(digitalRead(PIN_TEST_FIRE_BTN));
+    Serial.print(" | D5 (Joy Btn): ");
+    Serial.println(digitalRead(PIN_JOY_BTN));
+    delay(200);
+    return;
+    */
+    // =====================================
 
-    if (joyX < JOY_CENTER - JOY_DEADZONE) {
-        yawAngle += SERVO_STEP;
-    } else if (joyX > JOY_CENTER + JOY_DEADZONE) {
-        yawAngle -= SERVO_STEP;
+    // 1. 检查模式切换开关
+    SystemMode readMode = (digitalRead(PIN_MODE_SWITCH) == LOW) ? MODE_COMPETITION : MODE_TUNING;
+    if (readMode != currentMode) {
+        currentMode = readMode;
+        if (currentMode == MODE_COMPETITION) {
+            Serial.println(F("Switched to COMPETITION mode."));
+            competitionStarted = false;
+            competitionTargetIndex = 0;
+        } else {
+            Serial.println(F("Switched to TUNING mode."));
+            tuningTargetIndex = 0;
+            tuningCompleted = false;
+            hasBullet = true; // 假设每次切回调试模式时，用户会预装填
+            TargetPosition target = Gimbal_GetTarget(tuningTargetIndex);
+            Gimbal_MoveToTarget(target);
+        }
+        delay(500); // 防抖和模式切换缓冲
     }
 
-    if (joyY < JOY_CENTER - JOY_DEADZONE) {
-        pitchAngle += SERVO_STEP;
-    } else if (joyY > JOY_CENTER + JOY_DEADZONE) {
-        pitchAngle -= SERVO_STEP;
+    // 处理串口输入以控制发射电机（调试用）
+    if (Serial.available() > 0) {
+        int inputAngle = Serial.parseInt();
+        
+        // 清空串口缓冲区剩余字符
+        while (Serial.available() > 0) {
+            Serial.read();
+        }
+        
+        if (inputAngle != 0) {
+            Launcher_RotateLaunchMotor(inputAngle);
+        }
     }
 
-    yawAngle = constrain(yawAngle, 0, 180);
-    pitchAngle = constrain(pitchAngle, 0, 180);
-    servoYaw.write(yawAngle);
-    servoPitch.write(pitchAngle);
+    // 2. 根据模式执行对应逻辑
+    if (currentMode == MODE_TUNING) {
+        if (tuningCompleted) {
+            // 调试结束，什么都不做
+            return;
+        }
 
-    // --- 按钮触发N20单圈动作 ---
-    const bool fireNow = digitalRead(PIN_TEST_FIRE_BTN);
-    const bool joyNow = digitalRead(PIN_JOY_BTN);
+        // 读取摇杆并控制云台移动 (此函数内部会更新 currentYaw 和 currentPitch，并控制舵机)
+        // 注意：Gimbal_RunTuningMode 内部的按键检测我们将移出来统一处理，所以需要重构一下GimbalModule的按键逻辑，
+        // 或者我们在这里直接处理摇杆移动，不调用 Gimbal_RunTuningMode。
+        // 为了保持清晰，我们直接在 main.cpp 处理摇杆移动和按键。
+        
+        int joyX = analogRead(PIN_JOY_X);
+        int joyY = analogRead(PIN_JOY_Y);
+        int deadZone = 100;
+        int center = 512;
+        
+        extern int currentYaw;
+        extern int currentPitch;
+        
+        bool moved = false;
+        if (joyX < center - deadZone) { currentYaw += 1; moved = true; }
+        if (joyX > center + deadZone) { currentYaw -= 1; moved = true; }
+        if (joyY < center - deadZone) { currentPitch += 1; moved = true; }
+        if (joyY > center + deadZone) { currentPitch -= 1; moved = true; }
+        
+        if (moved) {
+            currentYaw = constrain(currentYaw, 0, 180);
+            currentPitch = constrain(currentPitch, 0, 180);
+            TargetPosition t = {currentYaw, currentPitch};
+            Gimbal_MoveToTarget(t);
+        }
+        delay(15); // 稍微延时，让舵机微调更平滑，且防止主循环过快
 
-    if (fireNow != lastFireBtn) {
-        Serial.print(F("[BTN] TEST_FIRE = "));
-        Serial.println(fireNow ? F("HIGH") : F("LOW"));
+        // 检测试射按键（使用与debug文件完全相同的防抖逻辑）
+        const bool btnNow = digitalRead(PIN_TEST_FIRE_BTN);
+        
+        // 检测原始状态变化
+        if (btnNow != testFireRawState) {
+            lastTestFireChangeTime = millis();
+            testFireRawState = btnNow;
+        }
+
+        // 防抖：状态稳定超过 DEBOUNCE_MS 后才认为有效
+        if ((millis() - lastTestFireChangeTime) > DEBOUNCE_MS) {
+            // 检测稳定状态变化
+            if (btnNow != testFireStableState) {
+                Serial.print(F("[BTN] 稳定状态变化: "));
+                Serial.println(btnNow ? F("HIGH") : F("LOW"));
+                
+                // 检测上升沿（LOW -> HIGH）
+                if (testFireStableState == LOW && btnNow == HIGH) {
+                    if (hasBullet) {
+                        // 有子弹，发射
+                        Serial.println(F("[TUNING] Firing..."));
+                        Launcher_Fire();
+                        hasBullet = false;
+                    } else {
+                        // 没子弹，装填
+                        Serial.println(F("[TUNING] Loading next bullet..."));
+                        TargetPosition temp = {currentYaw, currentPitch};
+                        
+                        Gimbal_MoveToTarget({LOAD_YAW, LOAD_PITCH});
+                        delay(500); // 等待云台到位
+                        
+                        Launcher_FeedBullet();
+                        
+                        Gimbal_MoveToTarget(temp);
+                        delay(500);
+                        hasBullet = true;
+                    }
+                }
+                
+                testFireStableState = btnNow;
+            }
+        }
+
+        // 检测摇杆确认按键
+        bool joyBtnReading = digitalRead(PIN_JOY_BTN);
+        if (joyBtnReading != joyBtnRawState) {
+            lastJoyBtnChangeTime = millis();
+            joyBtnRawState = joyBtnReading;
+        }
+
+        if ((millis() - lastJoyBtnChangeTime) > DEBOUNCE_MS) {
+            if (joyBtnReading != joyBtnStableState) {
+                if (joyBtnStableState == HIGH && joyBtnReading == LOW) {
+                    // 保存当前位置
+                    TargetPosition t = {currentYaw, currentPitch};
+                    Gimbal_UpdateTarget(tuningTargetIndex, t);
+                    
+                    Serial.print(F("[TUNING] Target "));
+                    Serial.print(tuningTargetIndex + 1);
+                    Serial.println(F(" saved."));
+
+                    tuningTargetIndex++;
+                    if (tuningTargetIndex < MAX_TARGETS) {
+                        // 装填下一个小球并移动到下一个目标的初始位置
+                        Serial.println(F("[TUNING] Loading bullet for next target..."));
+                        Gimbal_MoveToTarget({LOAD_YAW, LOAD_PITCH});
+                        delay(500);
+                        
+                        Launcher_FeedBullet();
+                        hasBullet = true;
+                        
+                        TargetPosition nextTarget = Gimbal_GetTarget(tuningTargetIndex);
+                        Gimbal_MoveToTarget(nextTarget);
+                    } else {
+                        Serial.println(F("[TUNING] All 5 targets updated. Tuning completed."));
+                        tuningCompleted = true;
+                    }
+                }
+                joyBtnStableState = joyBtnReading;
+            }
+        }
+
+    } else if (currentMode == MODE_COMPETITION) {
+        if (!competitionStarted) {
+            // 等待按下摇杆确认按钮开始比赛
+            bool joyBtnReading = digitalRead(PIN_JOY_BTN);
+            if (joyBtnReading != joyBtnRawState) {
+                lastJoyBtnChangeTime = millis();
+                joyBtnRawState = joyBtnReading;
+            }
+
+            if ((millis() - lastJoyBtnChangeTime) > DEBOUNCE_MS) {
+                if (joyBtnReading != joyBtnStableState) {
+                    if (joyBtnStableState == HIGH && joyBtnReading == LOW) {
+                        Serial.println(F("[COMPETITION] Match started!"));
+                        competitionStarted = true;
+                        competitionTargetIndex = 0;
+                    }
+                    joyBtnStableState = joyBtnReading;
+                }
+            }
+        } else {
+            if (competitionTargetIndex < Gimbal_GetTargetCount() && competitionTargetIndex < MAX_TARGETS) {
+                Serial.print(F("[COMPETITION] Processing Target "));
+                Serial.println(competitionTargetIndex + 1);
+
+                // 1. 云台移动到搭弹位置
+                Gimbal_MoveToTarget({LOAD_YAW, LOAD_PITCH});
+                delay(800); // 等待稳定
+
+                // 2. 供弹机构装弹
+                Launcher_FeedBullet();
+                delay(200);
+
+                // 3. 云台移动到位置
+                TargetPosition target = Gimbal_GetTarget(competitionTargetIndex);
+                Gimbal_MoveToTarget(target);
+                delay(1000); // 等待云台瞄准稳定
+
+                // 4. 发射
+                Launcher_Fire();
+                delay(500); // 发射后缓冲
+
+                competitionTargetIndex++;
+            } else {
+                Serial.println(F("[COMPETITION] All targets fired. Match ended."));
+                // 比赛结束，无限等待，直至切换模式
+                while(digitalRead(PIN_MODE_SWITCH) == LOW) {
+                    delay(100);
+                }
+            }
+        }
     }
-
-    if (joyNow != lastJoyBtn) {
-        Serial.print(F("[BTN] JOY_BTN = "));
-        Serial.println(joyNow ? F("HIGH") : F("LOW"));
-    }
-
-    if (lastFireBtn == HIGH && fireNow == LOW && (millis() - lastFireTriggerMs) > DEBOUNCE_MS) {
-        lastFireTriggerMs = millis();
-        Serial.println(F("Forward 360"));
-        rotateRelativeCounts(+COUNTS_PER_360);
-    }
-
-    if (lastJoyBtn == HIGH && joyNow == LOW && (millis() - lastJoyTriggerMs) > DEBOUNCE_MS) {
-        lastJoyTriggerMs = millis();
-        Serial.println(F("Backward 360"));
-        rotateRelativeCounts(-COUNTS_PER_360);
-    }
-
-    lastFireBtn = fireNow;
-    lastJoyBtn = joyNow;
-
-    delay(15);
 }
