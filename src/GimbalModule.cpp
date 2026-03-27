@@ -6,12 +6,15 @@
 Servo servoYaw;
 Servo servoPitch;
 
+constexpr int STARTUP_YAW = 90;
+constexpr int STARTUP_PITCH = 90;
+
 TargetPosition targets[MAX_TARGETS];
 int savedTargetCount = 0;
 
 // 当前云台角度（初始为搭弹位置）
-int currentYaw = LOAD_YAW;
-int currentPitch = LOAD_PITCH;
+int currentYaw = STARTUP_YAW;
+int currentPitch = STARTUP_PITCH;
 
 // EEPROM 地址分配
 const int EEPROM_ADDR_COUNT = 0; // 第0个字节存坐标数量
@@ -26,9 +29,9 @@ void Gimbal_Init() {
     
     Serial.println(F("Gimbal Module Initialized."));
     
-    // 初始化时云台回到搭弹位置
-    servoYaw.write(LOAD_YAW);
-    servoPitch.write(LOAD_PITCH);
+    // 初始化时云台先回中位，避免开机冲到历史极限角
+    servoYaw.write(STARTUP_YAW);
+    servoPitch.write(STARTUP_PITCH);
 }
 
 void Gimbal_LoadTargetsFromEEPROM() {

@@ -12,3 +12,9 @@ void Launcher_Fire();
 
 // 供调试使用：控制发射电机转动指定角度（正数正转，负数反转）
 void Launcher_RotateLaunchMotor(int angle);
+
+// 供调试使用：控制供弹电机转动指定角度（正数正转，负数反转）
+void Launcher_RotateFeedMotor(int angle);
+
+// 供诊断使用：开环强制让电机转动指定时间（毫秒），不依赖编码器
+void Launcher_TestMotorOpenLoop(int motorId, int durationMs);

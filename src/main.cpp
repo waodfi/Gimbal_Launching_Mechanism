@@ -59,16 +59,25 @@ void setup() {
         currentMode = MODE_TUNING;
         Serial.println(F("Mode: TUNING"));
         
-        // 调试模式初始化：移动到第一个目标的初始位置（或默认位置）
+        // 调试模式初始化：上电保持在中位，避免被历史点位拉到极限角
         tuningTargetIndex = 0;
         tuningCompleted = false;
         hasBullet = true;
-        TargetPosition target = Gimbal_GetTarget(tuningTargetIndex);
-        Gimbal_MoveToTarget(target);
+        Gimbal_MoveToTarget({90, 90});
     }
 }
 
 void loop() {
+    // === 诊断心跳打印（每2秒打印一次） ===
+    static unsigned long lastHeartbeat = 0;
+    if (millis() - lastHeartbeat >= 2000) {
+        lastHeartbeat = millis();
+        Serial.print(F("[DIAG] Heartbeat. Mode: "));
+        Serial.print(currentMode == MODE_TUNING ? F("TUNING") : F("COMPETITION"));
+        Serial.print(F(" | TestFireBtn Raw: "));
+        Serial.println(digitalRead(PIN_TEST_FIRE_BTN));
+    }
+
     // === 硬件调试专用代码，测试完毕后请注释掉 ===
     /*
     Serial.print("D12 (Fire Btn): ");
@@ -99,17 +108,57 @@ void loop() {
         delay(500); // 防抖和模式切换缓冲
     }
 
-    // 处理串口输入以控制发射电机（调试用）
-    if (Serial.available() > 0) {
-        int inputAngle = Serial.parseInt();
-        
-        // 清空串口缓冲区剩余字符
-        while (Serial.available() > 0) {
-            Serial.read();
+    // 处理串口输入以微调电机（格式：电机编号 角度）
+    // 1: 蓄力/发射电机, 2: 供弹电机
+    // 例如："1 180"、"2 -180"
+    static char serialCmdBuf[24];
+    static uint8_t serialCmdLen = 0;
+    while (Serial.available() > 0) {
+        const char c = static_cast<char>(Serial.read());
+        if (c == '\r') {
+            continue;
         }
-        
-        if (inputAngle != 0) {
-            Launcher_RotateLaunchMotor(inputAngle);
+
+        if (c == '\n') {
+            serialCmdBuf[serialCmdLen] = '\0';
+
+            if (serialCmdLen > 0) {
+                char *p = serialCmdBuf;
+                char *end1 = nullptr;
+                const long motorId = strtol(p, &end1, 10);
+                while (*end1 == ' ') {
+                    end1++;
+                }
+
+                char *end2 = nullptr;
+                const long inputAngle = strtol(end1, &end2, 10);
+                while (*end2 == ' ') {
+                    end2++;
+                }
+
+                const bool hasTwoNumbers = (end1 != end2);
+                const bool noExtraChars = (*end2 == '\0');
+
+                if (hasTwoNumbers && noExtraChars && inputAngle != 0 && motorId == 1) {
+                    Launcher_RotateLaunchMotor(static_cast<int>(inputAngle));
+                } else if (hasTwoNumbers && noExtraChars && inputAngle != 0 && motorId == 2) {
+                    Launcher_RotateFeedMotor(static_cast<int>(inputAngle));
+                } else if (hasTwoNumbers && noExtraChars && motorId == 99) { // 诊断指令：99 电机号
+                    Launcher_TestMotorOpenLoop(static_cast<int>(inputAngle), 500);
+                } else {
+                    Serial.println(F("[SERIAL] Invalid command. Use: <1|2> <angle>, e.g. 1 180 or 2 -180"));
+                    Serial.println(F("[SERIAL] Diag command: 99 <1|2> (Open loop test)"));
+                }
+            }
+
+            serialCmdLen = 0;
+        } else {
+            if (serialCmdLen < sizeof(serialCmdBuf) - 1) {
+                serialCmdBuf[serialCmdLen++] = c;
+            } else {
+                serialCmdLen = 0;
+                Serial.println(F("[SERIAL] Command too long."));
+            }
         }
     }
 
@@ -173,14 +222,13 @@ void loop() {
                     } else {
                         // 没子弹，装填
                         Serial.println(F("[TUNING] Loading next bullet..."));
-                        TargetPosition temp = {currentYaw, currentPitch};
                         
                         Gimbal_MoveToTarget({LOAD_YAW, LOAD_PITCH});
                         delay(500); // 等待云台到位
                         
                         Launcher_FeedBullet();
                         
-                        Gimbal_MoveToTarget(temp);
+                        Gimbal_MoveToTarget({90, 90}); // 装完弹后回到正前方
                         delay(500);
                         hasBullet = true;
                     }

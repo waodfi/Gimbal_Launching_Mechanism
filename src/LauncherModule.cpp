@@ -197,3 +197,64 @@ void Launcher_RotateLaunchMotor(int angle) {
     
     Serial.println(F("ROTATE Complete."));
 }
+
+void Launcher_RotateFeedMotor(int angle) {
+    if (angle == 0) return;
+
+    Serial.print(F("Action: ROTATE FEED MOTOR ("));
+    Serial.print(angle);
+    Serial.println(F(" deg)"));
+
+    const long targetCounts = (FEED_COUNTS_PER_360 * abs(angle)) / 360;
+
+    const long startCount = readFeedCount();
+    const int8_t requestedDir = (angle > 0) ? 1 : -1;
+    const long adjustedDelta = targetCounts * (FEED_DIRECTION * requestedDir);
+    const long target = startCount + adjustedDelta;
+
+    feedMotorDirection = (adjustedDelta > 0) ? 1 : -1;
+    feedMotor->setSpeed(FEED_SPEED);
+    feedMotor->run((adjustedDelta > 0) ? FORWARD : BACKWARD);
+
+    const unsigned long t0 = millis();
+    while (true) {
+        const long err = target - readFeedCount();
+        if (labs(err) <= FEED_POSITION_TOLERANCE) {
+            break;
+        }
+        if (millis() - t0 > FEED_TIMEOUT_MS) {
+            Serial.println(F("[WARN] Feed custom rotate timeout."));
+            break;
+        }
+        delay(1);
+    }
+
+    feedMotorDirection = 0;
+    feedMotor->setSpeed(0);
+    feedMotor->run(RELEASE);
+
+    Serial.println(F("FEED ROTATE Complete."));
+}
+
+void Launcher_TestMotorOpenLoop(int motorId, int durationMs) {
+    Serial.print(F("[DIAG] Open Loop Test Motor "));
+    Serial.print(motorId);
+    Serial.print(F(" for "));
+    Serial.print(durationMs);
+    Serial.println(F(" ms"));
+    
+    if (motorId == 1) { // Feed
+        feedMotor->setSpeed(200);
+        feedMotor->run(FORWARD);
+        delay(durationMs);
+        feedMotor->setSpeed(0);
+        feedMotor->run(RELEASE);
+    } else if (motorId == 2) { // Launch
+        launchMotor->setSpeed(200);
+        launchMotor->run(FORWARD);
+        delay(durationMs);
+        launchMotor->setSpeed(0);
+        launchMotor->run(RELEASE);
+    }
+    Serial.println(F("[DIAG] Test Complete."));
+}
