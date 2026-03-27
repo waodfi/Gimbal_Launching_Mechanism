@@ -222,13 +222,15 @@ void loop() {
                     } else {
                         // 没子弹，装填
                         Serial.println(F("[TUNING] Loading next bullet..."));
+                        TargetPosition temp = {currentYaw, currentPitch}; // 记录当前瞄准位置
                         
                         Gimbal_MoveToTarget({LOAD_YAW, LOAD_PITCH});
                         delay(500); // 等待云台到位
                         
                         Launcher_FeedBullet();
+                        delay(1500); // 等待球落到发射区
                         
-                        Gimbal_MoveToTarget({90, 90}); // 装完弹后回到正前方
+                        Gimbal_MoveToTarget(temp); // 装完弹后回到刚才瞄准的位置
                         delay(500);
                         hasBullet = true;
                     }
@@ -307,7 +309,7 @@ void loop() {
 
                 // 2. 供弹机构装弹
                 Launcher_FeedBullet();
-                delay(200);
+                delay(1500); // 等待球落到发射区
 
                 // 3. 云台移动到位置
                 TargetPosition target = Gimbal_GetTarget(competitionTargetIndex);
