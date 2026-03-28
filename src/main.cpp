@@ -51,7 +51,17 @@ void setup() {
     // 从 EEPROM 加载保存的目标
     Gimbal_LoadTargetsFromEEPROM();
 
-    // 初始化模式
+    // 初始化模式 - 临时强制启动为调试模式，绕过硬件开关问题
+    currentMode = MODE_TUNING;
+    Serial.println(F("Mode: TUNING (Forced)"));
+    
+    // 调试模式初始化：上电保持在中位，避免被历史点位拉到极限角
+    tuningTargetIndex = 0;
+    tuningCompleted = false;
+    hasBullet = true;
+    Gimbal_MoveToTarget({90, 90});
+    
+    /* 原始模式检测逻辑 - 硬件修复后恢复
     if (digitalRead(PIN_MODE_SWITCH) == LOW) {
         currentMode = MODE_COMPETITION;
         Serial.println(F("Mode: COMPETITION"));
@@ -59,12 +69,12 @@ void setup() {
         currentMode = MODE_TUNING;
         Serial.println(F("Mode: TUNING"));
         
-        // 调试模式初始化：上电保持在中位，避免被历史点位拉到极限角
         tuningTargetIndex = 0;
         tuningCompleted = false;
         hasBullet = true;
         Gimbal_MoveToTarget({90, 90});
     }
+    */
 }
 
 void loop() {
@@ -102,8 +112,7 @@ void loop() {
             tuningTargetIndex = 0;
             tuningCompleted = false;
             hasBullet = true; // 假设每次切回调试模式时，用户会预装填
-            TargetPosition target = Gimbal_GetTarget(tuningTargetIndex);
-            Gimbal_MoveToTarget(target);
+            Gimbal_MoveToTarget({90, 90}); // 切换到调试模式时，云台回到中位，避免极限角度
         }
         delay(500); // 防抖和模式切换缓冲
     }
@@ -139,15 +148,19 @@ void loop() {
                 const bool hasTwoNumbers = (end1 != end2);
                 const bool noExtraChars = (*end2 == '\0');
 
-                if (hasTwoNumbers && noExtraChars && inputAngle != 0 && motorId == 1) {
+                // 检查是否是 CLEAR 命令
+                if (strcmp(serialCmdBuf, "CLEAR") == 0 || strcmp(serialCmdBuf, "clear") == 0) {
+                    Gimbal_ClearEEPROM();
+                } else if (hasTwoNumbers && noExtraChars && inputAngle != 0 && motorId == 1) {
                     Launcher_RotateLaunchMotor(static_cast<int>(inputAngle));
                 } else if (hasTwoNumbers && noExtraChars && inputAngle != 0 && motorId == 2) {
                     Launcher_RotateFeedMotor(static_cast<int>(inputAngle));
-                } else if (hasTwoNumbers && noExtraChars && motorId == 99) { // 诊断指令：99 电机号
+                } else if (hasTwoNumbers && noExtraChars && motorId == 99) {
                     Launcher_TestMotorOpenLoop(static_cast<int>(inputAngle), 500);
                 } else {
                     Serial.println(F("[SERIAL] Invalid command. Use: <1|2> <angle>, e.g. 1 180 or 2 -180"));
                     Serial.println(F("[SERIAL] Diag command: 99 <1|2> (Open loop test)"));
+                    Serial.println(F("[SERIAL] Clear EEPROM: CLEAR"));
                 }
             }
 
@@ -162,18 +175,11 @@ void loop() {
         }
     }
 
-    // 2. 根据模式执行对应逻辑
     if (currentMode == MODE_TUNING) {
         if (tuningCompleted) {
-            // 调试结束，什么都不做
             return;
         }
 
-        // 读取摇杆并控制云台移动 (此函数内部会更新 currentYaw 和 currentPitch，并控制舵机)
-        // 注意：Gimbal_RunTuningMode 内部的按键检测我们将移出来统一处理，所以需要重构一下GimbalModule的按键逻辑，
-        // 或者我们在这里直接处理摇杆移动，不调用 Gimbal_RunTuningMode。
-        // 为了保持清晰，我们直接在 main.cpp 处理摇杆移动和按键。
-        
         int joyX = analogRead(PIN_JOY_X);
         int joyY = analogRead(PIN_JOY_Y);
         int deadZone = 100;
@@ -194,44 +200,37 @@ void loop() {
             TargetPosition t = {currentYaw, currentPitch};
             Gimbal_MoveToTarget(t);
         }
-        delay(15); // 稍微延时，让舵机微调更平滑，且防止主循环过快
+        delay(15);
 
-        // 检测试射按键（使用与debug文件完全相同的防抖逻辑）
         const bool btnNow = digitalRead(PIN_TEST_FIRE_BTN);
         
-        // 检测原始状态变化
         if (btnNow != testFireRawState) {
             lastTestFireChangeTime = millis();
             testFireRawState = btnNow;
         }
 
-        // 防抖：状态稳定超过 DEBOUNCE_MS 后才认为有效
         if ((millis() - lastTestFireChangeTime) > DEBOUNCE_MS) {
-            // 检测稳定状态变化
             if (btnNow != testFireStableState) {
                 Serial.print(F("[BTN] 稳定状态变化: "));
                 Serial.println(btnNow ? F("HIGH") : F("LOW"));
                 
-                // 检测上升沿（LOW -> HIGH）
                 if (testFireStableState == LOW && btnNow == HIGH) {
                     if (hasBullet) {
-                        // 有子弹，发射
                         Serial.println(F("[TUNING] Firing..."));
                         Launcher_Fire();
                         hasBullet = false;
                     } else {
-                        // 没子弹，装填
                         Serial.println(F("[TUNING] Loading next bullet..."));
-                        TargetPosition temp = {currentYaw, currentPitch}; // 记录当前瞄准位置
+                        TargetPosition temp = {currentYaw, currentPitch};
                         
-                        Gimbal_MoveToTarget({LOAD_YAW, LOAD_PITCH});
-                        delay(500); // 等待云台到位
+                        Gimbal_MoveToTargetSmooth({LOAD_YAW, LOAD_PITCH});
+                        delay(2000); // 等待云台移动到搭弹位置并稳定
                         
                         Launcher_FeedBullet();
-                        delay(1500); // 等待球落到发射区
+                        delay(2000); // 等待球落到发射区
                         
-                        Gimbal_MoveToTarget(temp); // 装完弹后回到刚才瞄准的位置
-                        delay(500);
+                        Gimbal_MoveToTargetSmooth(temp);
+                        delay(2000); // 等待云台回到瞄准位置并稳定
                         hasBullet = true;
                     }
                 }
@@ -240,7 +239,6 @@ void loop() {
             }
         }
 
-        // 检测摇杆确认按键
         bool joyBtnReading = digitalRead(PIN_JOY_BTN);
         if (joyBtnReading != joyBtnRawState) {
             lastJoyBtnChangeTime = millis();
@@ -250,7 +248,6 @@ void loop() {
         if ((millis() - lastJoyBtnChangeTime) > DEBOUNCE_MS) {
             if (joyBtnReading != joyBtnStableState) {
                 if (joyBtnStableState == HIGH && joyBtnReading == LOW) {
-                    // 保存当前位置
                     TargetPosition t = {currentYaw, currentPitch};
                     Gimbal_UpdateTarget(tuningTargetIndex, t);
                     
@@ -260,16 +257,17 @@ void loop() {
 
                     tuningTargetIndex++;
                     if (tuningTargetIndex < MAX_TARGETS) {
-                        // 装填下一个小球并移动到下一个目标的初始位置
                         Serial.println(F("[TUNING] Loading bullet for next target..."));
-                        Gimbal_MoveToTarget({LOAD_YAW, LOAD_PITCH});
-                        delay(500);
+                        Gimbal_MoveToTargetSmooth({LOAD_YAW, LOAD_PITCH});
+                        delay(2000); // 等待云台移动到搭弹位置并稳定
                         
                         Launcher_FeedBullet();
+                        delay(2000); // 等待球落到发射区
                         hasBullet = true;
                         
                         TargetPosition nextTarget = Gimbal_GetTarget(tuningTargetIndex);
-                        Gimbal_MoveToTarget(nextTarget);
+                        Gimbal_MoveToTargetSmooth(nextTarget);
+                        delay(2000); // 等待云台移动到下一个目标位置并稳定
                     } else {
                         Serial.println(F("[TUNING] All 5 targets updated. Tuning completed."));
                         tuningCompleted = true;
@@ -281,7 +279,6 @@ void loop() {
 
     } else if (currentMode == MODE_COMPETITION) {
         if (!competitionStarted) {
-            // 等待按下摇杆确认按钮开始比赛
             bool joyBtnReading = digitalRead(PIN_JOY_BTN);
             if (joyBtnReading != joyBtnRawState) {
                 lastJoyBtnChangeTime = millis();
@@ -303,27 +300,22 @@ void loop() {
                 Serial.print(F("[COMPETITION] Processing Target "));
                 Serial.println(competitionTargetIndex + 1);
 
-                // 1. 云台移动到搭弹位置
-                Gimbal_MoveToTarget({LOAD_YAW, LOAD_PITCH});
-                delay(800); // 等待稳定
+                Gimbal_MoveToTargetSmooth({LOAD_YAW, LOAD_PITCH});
+                delay(2000); // 等待云台移动到搭弹位置并稳定
 
-                // 2. 供弹机构装弹
                 Launcher_FeedBullet();
-                delay(1500); // 等待球落到发射区
+                delay(2000); // 等待球落到发射区
 
-                // 3. 云台移动到位置
                 TargetPosition target = Gimbal_GetTarget(competitionTargetIndex);
-                Gimbal_MoveToTarget(target);
-                delay(1000); // 等待云台瞄准稳定
+                Gimbal_MoveToTargetSmooth(target);
+                delay(2000); // 等待云台瞄准稳定
 
-                // 4. 发射
                 Launcher_Fire();
-                delay(500); // 发射后缓冲
+                delay(500);
 
                 competitionTargetIndex++;
             } else {
                 Serial.println(F("[COMPETITION] All targets fired. Match ended."));
-                // 比赛结束，无限等待，直至切换模式
                 while(digitalRead(PIN_MODE_SWITCH) == LOW) {
                     delay(100);
                 }

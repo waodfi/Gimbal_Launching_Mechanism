@@ -16,5 +16,11 @@ TargetPosition Gimbal_GetTarget(int index);
 // 更新并保存指定索引的目标坐标到EEPROM
 void Gimbal_UpdateTarget(int index, TargetPosition target);
 
-// 使云台移动到指定的坐标位置
+// 使云台移动到指定的坐标位置（瞬间移动，用于摇杆）
 void Gimbal_MoveToTarget(TargetPosition target);
+
+// 使云台平滑移动到指定的坐标位置（用于自动装弹/发射）
+void Gimbal_MoveToTargetSmooth(TargetPosition target);
+
+// 清空EEPROM中保存的所有目标
+void Gimbal_ClearEEPROM();

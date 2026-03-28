@@ -79,7 +79,26 @@ void Gimbal_UpdateTarget(int index, TargetPosition target) {
             savedTargetCount = index + 1;
             EEPROM.put(EEPROM_ADDR_COUNT, savedTargetCount);
         }
-        EEPROM.put(EEPROM_ADDR_DATA + index * sizeof(TargetPosition), target);
+        
+        // 保存到 EEPROM
+        int addr = EEPROM_ADDR_DATA + index * sizeof(TargetPosition);
+        EEPROM.put(addr, target);
+        
+        // 立即读回验证
+        TargetPosition verify;
+        EEPROM.get(addr, verify);
+        Serial.print(F("[EEPROM] Saved Target["));
+        Serial.print(index);
+        Serial.print(F("] at addr "));
+        Serial.print(addr);
+        Serial.print(F(": Yaw="));
+        Serial.print(target.yawAngle);
+        Serial.print(F(", Pitch="));
+        Serial.print(target.pitchAngle);
+        Serial.print(F(" | Verified: Yaw="));
+        Serial.print(verify.yawAngle);
+        Serial.print(F(", Pitch="));
+        Serial.println(verify.pitchAngle);
     }
 }
 
@@ -88,4 +107,31 @@ void Gimbal_MoveToTarget(TargetPosition target) {
     currentPitch = target.pitchAngle;
     servoYaw.write(target.yawAngle);
     servoPitch.write(target.pitchAngle);
+}
+
+void Gimbal_MoveToTargetSmooth(TargetPosition target) {
+    // 平滑移动：每次移动1度，延时20ms
+    while (currentYaw != target.yawAngle || currentPitch != target.pitchAngle) {
+        if (currentYaw < target.yawAngle) {
+            currentYaw++;
+        } else if (currentYaw > target.yawAngle) {
+            currentYaw--;
+        }
+        
+        if (currentPitch < target.pitchAngle) {
+            currentPitch++;
+        } else if (currentPitch > target.pitchAngle) {
+            currentPitch--;
+        }
+        
+        servoYaw.write(currentYaw);
+        servoPitch.write(currentPitch);
+        delay(20);
+    }
+}
+
+void Gimbal_ClearEEPROM() {
+    savedTargetCount = 0;
+    EEPROM.put(EEPROM_ADDR_COUNT, savedTargetCount);
+    Serial.println(F("[EEPROM] All saved targets cleared. Count reset to 0."));
 }
